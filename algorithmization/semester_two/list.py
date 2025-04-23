@@ -82,7 +82,9 @@ def generate_emails(emails_map: dict[str, list[str]]) -> list[str]:
     return emails
 	
 # Задание 2- Тестирование
-email_list = generate_emails(emails)
+email_list: list = generate_emails(emails)
+email_list.sort()
+print(email_list)
 
 # Задача 3
 # Напишите функцию, которая принимает два кортежа, объединяет их и возвращает новый кортеж без повторяющихся элементов.
