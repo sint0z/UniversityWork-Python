@@ -1,3 +1,3 @@
-user1|2025-04-22|10:00|info|User logged in
-user2|2025-04-22|11:00|error|Multiple failed login attempts
-user3|2025-04-23|09:30|warning|Password will expire soon
+user1|2025-04-22|10:00|INFO|User logged in
+user2|2025-04-22|11:00|ERROR|Multiple failed login attempts
+user3|2025-04-23|09:30|WARNING|Password will expire soon

@@ -1,15 +1,16 @@
 from logger import Logger
-from event import LoggerEvent
+from event import LevelEvent
 
 # Данну работу выполнил Стоцкий Никита (ПИЭ-42)
 # Для выполнения работы использовались классы
 
 if __name__ == "__main__":
     logger = Logger()
-    logger.log("user1", "2025-04-22", "10:00", LoggerEvent.INFO , "User logged in")
-    logger.log("user2", "22.04.2025", "11:00", LoggerEvent.ERROR, "Failed login")
-    logger.log("user3", "2025-04-23", "09:30", LoggerEvent.WARNING, "Password will expire soon")
-    logger.log("user4", "23-04-2025", "12:00", LoggerEvent.DEBUG, "Debug session started")
+    logger.set_level(LevelEvent.DEBUG)
+    logger.log("user1", "2025-04-22", "10:00", LevelEvent.INFO , "User logged in")
+    logger.log("user2", "22.04.2025", "11:00", LevelEvent.ERROR, "Failed login")
+    logger.log("user3", "2025-04-23", "09:30", LevelEvent.WARNING, "Password will expire soon")
+    logger.log("user4", "23-04-2025", "12:00", LevelEvent.DEBUG, "Debug session started")
 
     print("Все записи журнала:")
     logger.print()
@@ -19,7 +20,7 @@ if __name__ == "__main__":
         print(rec)
 
     print("\nФильтрация по событию 'error':")
-    for rec in logger.filter_by_event(LoggerEvent.ERROR):
+    for rec in logger.filter_by_event(LevelEvent.ERROR):
         print(rec)
 
     print("\nОбновление записи user2:")

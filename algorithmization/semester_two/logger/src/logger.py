@@ -1,4 +1,4 @@
-from event import LoggerEvent
+from event import LevelEvent
 from date import Date
 from typing import List, Tuple, Optional
 from pathlib import Path
@@ -10,15 +10,38 @@ class Logger():
     data_dir = current_dir.parent / 'data'
 
     def __init__(self):
-        self._list_tuple:List[Tuple[str, Date, str, LoggerEvent, str]] = []
+        self._list_tuple:List[Tuple[str, Date, str, LevelEvent, str]] = []
+        self._event_level: LevelEvent = None
+        self.__data_dir = Logger.data_dir
+
+    # Установка режима события, т.е устанавливаем событие
+    # после чего, все нужные события будут соответствующего уровня 
+    def set_level(self, event_level: LevelEvent) -> None:
+        if(event_level is not self._event_level):
+            self._event_level = event_level
+
+
+    def path_to_save(self, path_to_dir: str):
+        path = Path(path_to_dir)
+
+        if path.exists():
+            self.__data_dir = path
+        else:
+            raise IsADirectoryError("Директория не найдена")
+
 
     # Вспомгательный метод для создания кортежей
     def __create_tuple(self,uid, *data,) -> Tuple:
         return (uid, *data)
     
-    # Создайте кортеж, который будет хранить информацию о записи журнала, включая дату, время, тип события, описание и user_id.
+    # Создайте кортеж, который будет хранить информацию о записи журнала, включая дату, время, описание и user_id.
     # Добавление записей в журнал
-    def log(self, uid:str, date, time: str, event: LoggerEvent, description: str) -> None:
+    def log(self, uid:str, date, time: str, event: LevelEvent, description: str) -> None:
+
+        if (self._event_level is not None):
+            if event.value < self._event_level.value:
+                return
+
         temp_date = None
         if isinstance(date, str):
             temp_date = Date.generateDate(date)            
@@ -33,7 +56,7 @@ class Logger():
     def print(self) -> None:
         for rec in self._list_tuple:
             uid, date, time, event, description = rec
-            print(f"UID: {uid} | Date: {date} | Time: {time} | Event: {event.value} | Description: {description}")
+            print(f"UID: {uid} | Date: {date} | Time: {time} | Event: {event.name} | Description: {description}")
 
 
     # Поиск записей по дате
@@ -47,12 +70,12 @@ class Logger():
     
 
     # Фильтрация записей по типу события
-    def filter_by_event(self, event_type: LoggerEvent) -> List[Tuple]:
+    def filter_by_event(self, event_type: LevelEvent) -> List[Tuple]:
         return [res for res in self._list_tuple if res[3] == event_type]
     
 
     # Обновление записи журнала
-    def update(self, uid: str, date_str: str, time: str, new_event: Optional[LoggerEvent] = None, new_description: Optional[str] = None) -> bool:
+    def update(self, uid: str, date_str: str, time: str, new_event: Optional[LevelEvent] = None, new_description: Optional[str] = None) -> bool:
         try:
             target_date = Date.generateDate(date_str)
         except Exception as e:
@@ -95,17 +118,17 @@ class Logger():
 
     # Запись в файл
     def write_to_file(self, filename: str) -> None:
-        with open(Logger.data_dir / filename, "w") as f:
+        with open(self.__data_dir / filename, "w") as f:
             for rec in self._list_tuple:
                 uid, date, time, event, description = rec
                 
-                line = f"{uid}|{date}|{time}|{event.value}|{description}\n"
+                line = f"{uid}|{date}|{time}|{event.name}|{description}\n"
                 f.write(line)
 
 
     # Чтение из файла
     def read_to_file(self, filename: str) -> None:
-        with open(Logger.data_dir / filename, "r") as file:
+        with open(self.__data_dir / filename, "r") as file:
             for line in file:
                 line = line.strip()
                 if not line:
@@ -125,7 +148,7 @@ class Logger():
                     continue
                 
                 try:
-                    event = LoggerEvent(event_str)
+                    event = LevelEvent[event_str]
                 except Exception as ex:
                     print(f"Ошибка неверно указано событие {event_str}")
 
