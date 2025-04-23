@@ -93,7 +93,7 @@ tupleTwo = (2, 5)
 def concatenate_tuple(tupleOne: tuple, tupleTwo: tuple) -> tuple:
     return set(tupleOne + tupleTwo)
 
-
+# Задание 3 - Тестирование
 new_tuple = concatenate_tuple(tupleOne, tupleTwo)
 
 print(f"Tuple one -> {tupleOne}")
@@ -101,7 +101,8 @@ print(f"Tuple two -> {tupleTwo}")
 print("New Tuple -> " + str(new_tuple) + "\n")
 
 
-
+# Задание 4 - Дан список кортежей (город, год, население). 
+# Необходимо сгруппировать данные по городу и вывести суммарное население для каждого.
 data = [("Москва", 2020, 12_000_000),
     ("Санкт-Петербург", 2020, 5_400_000),
     ("Москва", 2021, 12_200_000),
@@ -112,6 +113,7 @@ population_by_city = defaultdict(int)
 for city, _, population in data:
         population_by_city[city] += population
 
+# Задание 4 - Тестирование
 for city, total_population in population_by_city.items():
     print(f"Город: {city} -> Численность: {total_population}")
 
