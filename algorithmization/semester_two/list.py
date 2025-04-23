@@ -1,5 +1,25 @@
 from collections import defaultdict
 
+# Задача 1.
+# В настольной игре Скрабл (Scrabble) каждая буква имеет определенную ценность. 
+# В случае с английским алфавитом очки распределяются так:
+# •	A, E, I, O, U, L, N, S, T, R – 1 очко;
+# •	D, G – 2 очка;
+# •	B, C, M, P – 3 очка;
+# •	F, H, V, W, Y – 4 очка;
+# •	K – 5 очков;
+# •	J, X – 8 очков;
+# •	Q, Z – 10 очков.
+# А русские буквы оцениваются так:
+# •	А, В, Е, И, Н, О, Р, С, Т – 1 очко;
+# •	Д, К, Л, М, П, У – 2 очка;
+# •	Б, Г, Ё, Ь, Я – 3 очка;
+# •	Й, Ы – 4 очка;
+# •	Ж, З, Х, Ц, Ч – 5 очков;
+# •	Ш, Э, Ю – 8 очков;
+# •	Ф, Щ, Ъ – 10 очков.
+# Напишите программу, которая вычисляет стоимость введенного пользователем слова. 
+# Будем считать, что на вход подается только одно слово, которое содержит либо только английские, либо только русские буквы.
 def scrabble_score(word: str) -> int:
     rus_char  = {
         "АВЕИНОРСТ" : 1, 
@@ -35,12 +55,16 @@ def scrabble_score(word: str) -> int:
                 break
 
     return total_cost
-
+	
+# Задание 1 - Тестирование
 word = "Test"
 score = scrabble_score(word) 
 print(f"Score: {score} for word {word} \n")
 
 
+# Задача 2
+# Данные об email-адресах студентов хранятся в словаре
+# Нужно дополнить код таким образом, чтобы он вывел все адреса в алфавитном порядке и в формате имя_пользователя@домен.
 emails = {'mgu.edu': ['andrei_serov', 'alexander_pushkin', 'elena_belova', 'kirill_stepanov'],
       	'gmail.com': ['alena.semyonova', 'ivan.polekhin', 'marina_abrabova'],
       	'msu.edu': ['sergei.zharkov', 'julia_lyubimova', 'vitaliy.smirnoff'],
@@ -56,14 +80,17 @@ def generate_emails(emails_map: dict[str, list[str]]) -> list[str]:
         for user in users:
             emails.append("{0}@{1}".format(user,domain))
     return emails
-
+	
+# Задание 2- Тестирование
 email_list = generate_emails(emails)
 
-
+# Задача 3
+# Напишите функцию, которая принимает два кортежа, объединяет их и возвращает новый кортеж без повторяющихся элементов.
 tupleOne = (1, 2)
 tupleTwo = (2, 5)
 def concatenate_tuple(tupleOne: tuple, tupleTwo: tuple) -> tuple:
     return set(tupleOne + tupleTwo)
+
 
 new_tuple = concatenate_tuple(tupleOne, tupleTwo)
 
